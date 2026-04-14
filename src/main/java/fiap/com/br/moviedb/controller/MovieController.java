@@ -22,7 +22,12 @@ public class MovieController {
     }
 
     @GetMapping("search")
-    public Page<Movie> getMovieByTitle(@RequestParam String title, Pageable pageable){
+    public Page<Movie> findByTitle(@RequestParam String title, Pageable pageable){
         return movieRepository.findByTitleContainingIgnoreCase(title, pageable);
+    }
+
+    @GetMapping(params = "genre")
+    public Page<Movie> findByGenre(@RequestParam String genre, Pageable pageable){
+        return movieRepository.findByGenreNameContainingIgnoreCase(genre,pageable);
     }
 }
