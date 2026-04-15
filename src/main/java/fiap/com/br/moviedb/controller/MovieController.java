@@ -30,4 +30,30 @@ public class MovieController {
     public Page<Movie> findByGenre(@RequestParam String genre, Pageable pageable){
         return movieRepository.findByGenreNameContainingIgnoreCase(genre,pageable);
     }
+
+    @GetMapping(params = "director")
+    public Page<Movie> findByDirector(@RequestParam String director, Pageable pageable){
+        return movieRepository.findByDirectorNameContainingIgnoreCase(director, pageable);
+    }
+
+    @GetMapping(params = {"yearFrom", "yearTo"})
+    public Page<Movie> findByYearInterval(@RequestParam Integer yearFrom, @RequestParam Integer yearTo, Pageable pageable){
+        return movieRepository.findByReleaseYearBetween(yearFrom, yearTo, pageable);
+    }
+
+    @GetMapping(params = "rating")
+    public Page<Movie> fingByRatingAbove(@RequestParam Double rating, Pageable pageable){
+        return movieRepository.findByRatingGreaterThan(rating, pageable);
+    }
+
+    @GetMapping(params = {"genre", "yearFrom"})
+    public Page<Movie> fingByGenreAndYear(@RequestParam String genre, @RequestParam Integer yearFrom,Pageable pageable){
+        return movieRepository.findByGenreNameContainingIgnoreCaseAndReleaseYearGreaterThan(genre, yearFrom, pageable);
+    }
+
+    @GetMapping("director/{directorId}/top")
+    public Page<Movie> findByDirectorAndRatingAbove(@PathVariable Long directorId, @RequestParam(name = "ratingAbove") Double rating, Pageable pageable ){
+        return movieRepository.findByDirectorIdAndRatingGreaterThan(directorId, rating, pageable);
+    }
+
 }
